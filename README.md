@@ -75,4 +75,5 @@ fix/
 
 ### Merge
 > `PR`은 모두의 확인을 받아야 `Merge`가 가능합니다.
+> <br/>
 > 모든 작업이 완료되어 `Merge`가 된 경우, 해당 `PR` 하단의 `Delete Branch`를 선택하여 작업이 끝난 `Branch`를 삭제합니다.
