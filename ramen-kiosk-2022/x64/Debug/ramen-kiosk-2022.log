@@ -1,0 +1,13 @@
+﻿  cart.cpp
+  kiosk.cpp
+C:\Users\june0\OneDrive\바탕 화면\C++\ramen-kiosk\ramen-kiosk-2022\kiosk.cpp(44,10): warning C4566: 유니버설 문자 이름 '\u25E1'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
+  kiosk_handler.cpp
+  main.cpp
+  menu.cpp
+  menu_item.cpp
+  pay.cpp
+  pay_item.cpp
+  pay_list.cpp
+  revenue_manager.cpp
+  코드를 생성하고 있습니다...
+  ramen-kiosk-2022.vcxproj -> C:\Users\june0\OneDrive\바탕 화면\C++\ramen-kiosk\x64\Debug\ramen-kiosk-2022.exe
