@@ -127,23 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="cart.h" />
+    <ClInclude Include="order_list.h" />
     <ClInclude Include="kiosk.h" />
     <ClInclude Include="kiosk_handler.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="menu_item.h" />
+    <ClInclude Include="order.h" />
+    <ClInclude Include="order_item.h" />
     <ClInclude Include="pay.h" />
     <ClInclude Include="pay_item.h" />
     <ClInclude Include="pay_list.h" />
     <ClInclude Include="revenue_manager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cart.cpp" />
+    <ClCompile Include="order_list.cpp" />
     <ClCompile Include="kiosk.cpp" />
     <ClCompile Include="kiosk_handler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu.cpp" />
-    <ClCompile Include="menu_item.cpp" />
+    <ClCompile Include="order.cpp" />
+    <ClCompile Include="order_item.cpp" />
     <ClCompile Include="pay.cpp" />
     <ClCompile Include="pay_item.cpp" />
     <ClCompile Include="pay_list.cpp" />

@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="menu.h">
+    <ClInclude Include="order.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="menu_item.h">
+    <ClInclude Include="order_item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="kiosk.h">
@@ -27,7 +27,7 @@
     <ClInclude Include="kiosk_handler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cart.h">
+    <ClInclude Include="order_list.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="pay.h">
@@ -44,10 +44,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="menu.cpp">
+    <ClCompile Include="order.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="menu_item.cpp">
+    <ClCompile Include="order_item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="kiosk.cpp">
@@ -56,7 +56,7 @@
     <ClCompile Include="kiosk_handler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cart.cpp">
+    <ClCompile Include="order_list.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
