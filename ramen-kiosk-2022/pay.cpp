@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Pay::Pay(void) : paymentList(0)
+Pay::Pay(void) : paymentList(0), count(0)
 {
 
 }

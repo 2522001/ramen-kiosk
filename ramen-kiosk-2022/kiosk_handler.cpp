@@ -1,11 +1,14 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include "kiosk_handler.h"
+#include <ctime>
 
 OrderCategory::OrderCategory(const MenuItem& item, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), item(item), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
 {
 	// 멤버 변수 초기화
 	mode = 0; // default: 구매자 모드
 	is_paid = 1; // default: 결제 완료
+	is_printed = 1; // default: 출력 완료
 }
 
 bool OrderCategory::Run(void) {
@@ -20,7 +23,8 @@ bool OrderCategory::Run(void) {
 	cout << "2. 주문 확인" << endl;
 	cout << "3. 주문 수정" << endl;
 	cout << "4. 결제" << endl;
-	cout << "5. 키오스크 설정" << endl;
+	cout << "5. 영수증 출력" << endl;
+	cout << "6. 키오스크 설정" << endl;
 	cout << "---------------------------" << endl << endl;
 
 	cout << "> 선택지 번호를 입력하세요: ";
@@ -40,9 +44,12 @@ bool OrderCategory::Run(void) {
 		EditOrder();
 		break;
 	case 4:
-		AddPayment();
+		AddPay();
 		break;
 	case 5:
+		PrintReceipt();
+		break;
+	case 6:
 		Settings();
 		break;
 	default:
@@ -389,16 +396,15 @@ void OrderCategory::EditOrder(void)
 	return;
 }
 
-void OrderCategory::AddPayment(void) {
+void OrderCategory::AddPay(void) {
 	using namespace std;
 
 	unsigned int calculate = 0;
 	Order* pOrder = 0;
 
 	string paymentName;
-	Payment* pPayment = 0;
+	Payment* pPayItem = 0;
 	Pay* pPay = 0;
-	PayList* pPayItem = 0;
 	string paySuccess;
 
 	// system("cls");
@@ -422,8 +428,8 @@ void OrderCategory::AddPayment(void) {
 			return;
 		}
 
-		pPayment = payItem.GetPayment(paymentName);
-		if (pPayment == 0) {
+		pPayItem = payItem.GetPayment(paymentName);
+		if (pPayItem == 0) {
 			cout << "해당 결제수단은 없습니다." << endl;
 			return;
 		}
@@ -434,12 +440,13 @@ void OrderCategory::AddPayment(void) {
 		cin >> paySuccess;
 		if (paySuccess == "네") {
 			pPay = pPayList->AddPay();
-			pPayment = new Payment(paymentName);
-			pPay->AddPayment(*pPayment);
-			delete pPayment;
+			pPayItem = new Payment(paymentName);
+			pPay->AddPayment(*pPayItem);
+			delete pPayItem;
 
 			is_paid = 1; // 결제 완료 상태로 전환
 			pRevManager->Calculate(calculate); // 결제된 금액 매출액 관리자에게 넘기기
+			is_printed = 0; // 출력할 내역이 생겼으므로 결제 필요 상태로 전환
 			cout << "결제 성공" << endl;
 		}
 		else {
@@ -452,6 +459,63 @@ void OrderCategory::AddPayment(void) {
 	}
 	else { // is_paid == 1일 때 (주문이 0개인 상태 포함)
 		cout << "결제할 주문이 없습니다." << endl;
+		return;
+	}
+}
+
+void OrderCategory::PrintReceipt(void)
+{
+	using namespace std;
+
+	Order* pOrder = 0;
+	Object* pObj = 0;
+
+	Payment* pPayItem = 0;
+	Pay* pPay = 0;
+
+	unsigned int sum = 0;
+	unsigned int calculate = 0;
+
+	time_t temp;
+	struct tm* timeinfo;
+
+	time(&temp);
+	timeinfo = localtime(&temp);
+
+	if (is_printed == 0) {
+		pOrder = pOrderList->GetOrder((pOrderList->Count) - 1);
+		calculate = pOrder->Calculate();
+
+		cout << "<영수증>" << endl;
+		cout << "==============================================" << endl;
+		cout << "성훈이네 라면가게" << endl;
+		cout << "----------------------------------------------" << endl;
+		cout << "날짜 : " << 1900 + timeinfo->tm_year << "-" << 1 + timeinfo->tm_mon << "-" << timeinfo->tm_mday << " " << timeinfo->tm_hour << ":" << timeinfo->tm_min << endl;
+		cout << "----------------------------------------------" << endl;
+		cout << "주문번호 : " << pOrderList->Count-1 << "번 " << endl;
+		cout << "----------------------------------------------" << endl;
+		cout << "메뉴\t\t수량\t금액" << endl << endl;
+		cout << "----------------------------------------------" << endl;
+
+		for (unsigned int i = 0; i < (pOrder->Count); i++) {
+			pObj = pOrder->GetObject(i);
+			cout << " ->     " << pObj->Name << "\t\t" << pObj->Count << "\t" << pObj->Calculate() << endl;
+			sum += pObj->Calculate();
+		}
+
+		pPay = pPayList->GetPay((pPayList->Count) - 1);
+		pPayItem = pPay->GetPayment(0); // 항상 0번째 자리에 있으므로
+
+		cout << "----------------------------------------------" << endl;
+		cout << "합계\t\t\t\t\t" << sum << "원" << endl << endl;
+		cout << "----------------------------------------------" << endl;
+		cout << "결제 수단\t\t\t" << pPayItem->Name << endl << endl;
+		is_printed = 1;
+		return;
+	}
+	else {
+		cout << "출력할 주문이 없습니다." << endl;
+		cout << endl << "홈 화면으로 돌아갑니다." << endl << endl;
 		return;
 	}
 }

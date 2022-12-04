@@ -1,9 +1,2 @@
-﻿  order_list.cpp
-  kiosk.cpp
-C:\Users\june0\source\repos\ramen-kiosk-2022\ramen-kiosk-2022\kiosk.cpp(44,10): warning C4566: 유니버설 문자 이름 '\u25E1'(으)로 표현되는 문자는 현재 코드 페이지(949)에서 표현할 수 없습니다.
-  kiosk_handler.cpp
-  main.cpp
-  order.cpp
-  order_item.cpp
-  코드를 생성하고 있습니다...
-  ramen-kiosk-2022.vcxproj -> C:\Users\june0\source\repos\ramen-kiosk-2022\x64\Debug\ramen-kiosk-2022.exe
+﻿  kiosk_handler.cpp
+  ramen-kiosk-2022.vcxproj -> C:\Users\june0\OneDrive\바탕 화면\C++\ramen-kiosk\x64\Debug\ramen-kiosk-2022.exe

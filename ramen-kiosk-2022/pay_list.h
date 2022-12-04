@@ -17,7 +17,6 @@ public:
 	void DeletePay(unsigned int index);
 
 	Pay* GetPay(unsigned int index);
-	const Pay* GetPay(unsigned int index) const;
 
 	const unsigned int& Count = count;
 };
