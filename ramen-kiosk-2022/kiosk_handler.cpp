@@ -70,9 +70,8 @@ bool OrderCategory::Settings(void) {
 	cout << "<관리자 모드>" << endl;
 	cout << "하단 번호를 제외한 값 입력 시 관리자 모드를 종료합니다." << endl;
 	cout << "1. 전체 주문 내역 확인" << endl;
-	cout << "2. 주문 내역 수정" << endl;
-	cout << "3. 정산" << endl;
-	cout << "4. 키오스크 종료" << endl;
+	cout << "2. 정산" << endl;
+	cout << "3. 키오스크 종료" << endl;
 	cout << "---------------------------" << endl << endl;
 
 
@@ -83,13 +82,11 @@ bool OrderCategory::Settings(void) {
 		PrintOrder();
 		break;
 	case 2:
-		EditOrder();
-		break;
-	case 3:
 		cout << endl
 			<< "현재 총 매출액은 " << pRevManager->Today << "원입니다." << endl << endl;
 		break;
-	case 4:
+	case 3:
+		cout << endl << "키오스크를 종료합니다." << endl << endl;
 		exit(0);
 	default:
 		cout << endl << "홈 화면으로 돌아갑니다." << endl << endl;
@@ -329,13 +326,13 @@ void OrderCategory::EditOrder(void)
 
 	cout << endl << "주문을 수정합니다." << endl << endl;
 
-	if (mode == 0) { // 구매자 모드: 결제 필요 상태의 가장 최근 주문 불러오기
-		if (is_paid == 1) {
-			cout << "주문이 없습니다." << endl << endl;
-			return;
-		}
-		pEditing = pOrderList->GetOrder((pOrderList->Count)-1);
-	} else { // 관리자 모드: 결제 완료 상태의 모든 주문 리스트 불러오기
+	if (is_paid == 1) {
+		cout << "주문이 없습니다." << endl << endl;
+		return;
+	}
+	pEditing = pOrderList->GetOrder((pOrderList->Count)-1);
+
+	/* } else { // 관리자 모드: 결제 완료 상태의 모든 주문 리스트 불러오기
 		if (pOrderList->Count == 0) {
 			cout << "주문이 없습니다." << endl << endl;
 			return;
@@ -348,7 +345,7 @@ void OrderCategory::EditOrder(void)
 			return;
 		}
 		pEditing = pOrderList->GetOrder(index);
-	}
+	}*/
 	
 	cout << "> 수정 서식을 입력하십시오([메뉴] [개수] [추가/제거]): ";
 	cin >> objName >> objCount >> behavior;
@@ -374,17 +371,11 @@ void OrderCategory::EditOrder(void)
 		else {
 			pEditObj = new Object(objName, pEditObj->Price, objCount);
 			if (pEditing->DeleteObject(*pEditObj)) {
-				if (mode == 0) { // 구매자 모드 (가장 최근 주문)
-					pOrderList->DeleteOrder((pOrderList->Count) - 1);
-				}
-				else {
-					pOrderList->DeleteOrder(index);
-				}
+				pOrderList->DeleteOrder((pOrderList->Count) - 1);
 				is_paid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
 			}
 			delete pEditObj;
 		}
-
 	}
 	else {
 		cout << "행동을 잘못 입력하였습니다." << endl << endl;
