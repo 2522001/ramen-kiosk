@@ -114,8 +114,8 @@ void OrderCategory::AddOrder(void) {
 		"<메뉴판>" << endl << endl
 		<< "[단품]" << endl
 		<< "1. 라면 종류: 일반라면, 순두부라면, 떡라면, 만두라면, 치즈라면" << endl
-		<< "2. 맵기 정도: 덜맵게, 기본, 더맵게" << endl
-		<< "3. 익힘 정도: 꼬들하게, 기본, 퍼지게" << endl << endl
+		<< "2. 맵기 정도: 덜맵게, 기본맵기, 더맵게" << endl
+		<< "3. 익힘 정도: 꼬들하게, 기본익힘, 퍼지게" << endl << endl
 
 		<< "[음료]" << endl
 		<< "1. 콜라" << endl
@@ -181,19 +181,10 @@ void OrderCategory::AddOrder(void) {
 			}
 
 
-			cout << "> 해당 메뉴를 몇개 주문하시겠습니까?: ";
-			cin >> objCount;
-
-			if (objCount == 0) {
-				break;
-			}
-
-			pObj = new Object(objName, pObj->Price, objCount);
-
-			pOrder->AddObject(*pObj);
-
 			// 라면 주문인 경우에만 맵기, 익힘 정도 선택 
 			if (objName == "일반라면" || objName == "순두부라면" || objName == "떡라면" || objName == "만두라면" || objName == "치즈라면") {
+				int ramenPrice = pObj->Price;
+			ONE:
 				cout << "> 맵기정도를 입력하세요: ";
 				cin >> objSpicy;
 
@@ -203,13 +194,12 @@ void OrderCategory::AddOrder(void) {
 
 				pObj = item.GetObject(objSpicy);
 				if (pObj == 0) {
-					cout << "해당 메뉴는 없습니다." << endl;
-					continue;
+					cout << "해당 맵기정도는 없습니다." << endl;
+					goto ONE;
 				}
 
-				pObj = new Object(objSpicy, 0, 0);
-				pOrder->AddObject(*pObj);
 
+			TWO:
 				cout << "> 익힘정도를 입력하세요: ";
 				cin >> objCooked;
 
@@ -219,9 +209,40 @@ void OrderCategory::AddOrder(void) {
 
 				pObj = item.GetObject(objCooked);
 				if (pObj == 0) {
-					cout << "해당 메뉴는 없습니다." << endl;
-					continue;
+					cout << "해당 익힘정도는 없습니다." << endl;
+					goto TWO;
 				}
+
+				cout << "> 해당 메뉴를 몇개 주문하시겠습니까?: ";
+				cin >> objCount;
+
+				if (objCount == 0) {
+					break;
+				}
+
+				
+				pObj = new Object(objName, ramenPrice, objCount);
+
+
+				pOrder->AddObject(*pObj);
+
+			}
+			else {
+				cout << "> 해당 메뉴를 몇개 주문하시겠습니까?: ";
+				cin >> objCount;
+
+				if (objCount == 0) {
+					break;
+				}
+
+				pObj = new Object(objName, pObj->Price, objCount);
+
+				pOrder->AddObject(*pObj);
+			}
+
+			if (objName == "일반라면" || objName == "순두부라면" || objName == "떡라면" || objName == "만두라면" || objName == "치즈라면") {
+				pObj = new Object(objSpicy, 0, 0);
+				pOrder->AddObject(*pObj);
 
 				pObj = new Object(objCooked, 0, 0);
 
@@ -321,6 +342,28 @@ void OrderCategory::EditOrder(void)
 	Object* pEditObj = 0;
 
 	string objName;
+	Order* pEditingSpicy1 = 0;
+	Object* pEditObjSpicy1 = 0;
+	Order* pEditingSpicy2 = 0;
+	Object* pEditObjSpicy2 = 0;
+	Order* pEditingSpicy3 = 0;
+	Object* pEditObjSpicy3 = 0;
+
+	string objSpicy1;
+	string objSpicy2;
+	string objSpicy3;
+
+	Order* pEditingCooked1 = 0;
+	Object* pEditObjCooked1 = 0;
+	Order* pEditingCooked2 = 0;
+	Object* pEditObjCooked2 = 0;
+	Order* pEditingCooked3 = 0;
+	Object* pEditObjCooked3 = 0;
+
+	string objCooked1;
+	string objCooked2;
+	string objCooked3;
+
 	unsigned int objCount;
 	string behavior;
 
@@ -330,7 +373,7 @@ void OrderCategory::EditOrder(void)
 		cout << "주문이 없습니다." << endl << endl;
 		return;
 	}
-	pEditing = pOrderList->GetOrder((pOrderList->Count)-1);
+	pEditing = pOrderList->GetOrder((pOrderList->Count) - 1);
 
 	/* } else { // 관리자 모드: 결제 완료 상태의 모든 주문 리스트 불러오기
 		if (pOrderList->Count == 0) {
@@ -346,43 +389,161 @@ void OrderCategory::EditOrder(void)
 		}
 		pEditing = pOrderList->GetOrder(index);
 	}*/
-	
-	cout << "> 수정 서식을 입력하십시오([메뉴] [개수] [추가/제거]): ";
-	cin >> objName >> objCount >> behavior;
 
-	if (behavior == "추가") {
-		pEditObj = item.GetObject(objName);
-		if (pEditObj == 0) {
-			cout << "메뉴를 찾을 수 없습니다." << endl << endl;
-			return;
+	while (true) {
+		cout << "> 수정 서식을 입력하십시오([메뉴] [개수] [추가/제거]): ";
+		cin >> objName >> objCount >> behavior;
+
+		if (objName == "0") {
+			break;
 		}
-		else {
-			pEditObj = new Object(objName, pEditObj->Price, objCount);
-			pEditing->AddObject(*pEditObj);
-			delete pEditObj;
-		}
-	}
-	else if (behavior == "제거") {
-		pEditObj = pEditing->GetObject(objName);
-		if (pEditObj == 0) {
-			cout << "메뉴를 찾을 수 없습니다." << endl << endl;
-			return;
-		}
-		else {
-			pEditObj = new Object(objName, pEditObj->Price, objCount);
-			if (pEditing->DeleteObject(*pEditObj)) {
-				pOrderList->DeleteOrder((pOrderList->Count) - 1);
-				is_paid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
+
+		if (behavior == "추가") {
+			pEditObj = item.GetObject(objName);
+			if (pEditObj == 0) {
+				cout << "메뉴를 찾을 수 없습니다." << endl << endl;
+				continue;
 			}
-			delete pEditObj;
+			else {
+				pEditObj = new Object(objName, pEditObj->Price, objCount);
+				pEditing->AddObject(*pEditObj);
+				delete pEditObj;
+			}
 		}
+		else if (behavior == "제거") {
+			pEditObj = pEditing->GetObject(objName);
+			if (pEditObj == 0) {
+				cout << "메뉴를 찾을 수 없습니다." << endl << endl;
+				continue;
+			}
+			else {
+				if (objName == "덜맵게" || objName == "기본맵기" || objName == "더맵게") {
+					pEditObj = new Object(objName, pEditObj->Price, objCount);
+					if (pEditing->DeleteObject(*pEditObj)) {
+						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						//is_paid = 1;
+					}
+					delete pEditObj;
+
+					pEditObj = new Object("기본맵기", 0, 0);
+					pEditing->AddObject(*pEditObj);
+					delete pEditObj;
+
+				}
+				else if (objName == "꼬들하게" || objName == "기본익힘" || objName == "퍼지게") {
+					pEditObj = new Object(objName, pEditObj->Price, objCount);
+					if (pEditing->DeleteObject(*pEditObj)) {
+						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						//is_paid = 1;
+					}
+					delete pEditObj;
+
+					pEditObj = new Object("기본익힘", 0, 0);
+					pEditing->AddObject(*pEditObj);
+					delete pEditObj;
+
+				}
+				else if (objName == "일반라면" || objName == "순두부라면" || objName == "떡라면" || objName == "만두라면" || objName == "치즈라면") {
+					pEditObj = new Object(objName, pEditObj->Price, objCount);
+					if (pEditing->DeleteObject(*pEditObj)) {
+						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						is_paid = 1;
+					}
+					delete pEditObj;
+
+					pEditObj = pEditing->GetObject(objName);
+					if (pEditObj == 0) {
+						// 라면이 아예 0개로 제거되는 경우 옵션 삭제
+						objSpicy1 = "덜맵게";
+						pEditingSpicy1 = pOrderList->GetOrder((pOrderList->Count) - 1);
+						pEditObjSpicy1 = pEditing->GetObject(objSpicy1);
+						if (pEditObjSpicy1 == 0) {
+							objSpicy2 = "기본맵기";
+							pEditingSpicy2 = pOrderList->GetOrder((pOrderList->Count) - 1);
+							pEditObjSpicy2 = pEditing->GetObject(objSpicy2);
+							if (pEditObjSpicy2 == 0) {
+								objSpicy3 = "더맵게";
+								pEditingSpicy3 = pOrderList->GetOrder((pOrderList->Count) - 1);
+								pEditObjSpicy3 = pEditing->GetObject(objSpicy3);
+								pEditObjSpicy3 = new Object(objSpicy3, 0, 0);
+								if (pEditingSpicy3->DeleteObject(*pEditObjSpicy3)) {
+									pOrderList->DeleteOrder((pOrderList->Count) - 1);
+									//is_paid = 1;
+								}
+								delete pEditObjSpicy3;
+							}
+							pEditObjSpicy2 = new Object(objSpicy2, 0, 0);
+							if (pEditingSpicy2->DeleteObject(*pEditObjSpicy2)) {
+								pOrderList->DeleteOrder((pOrderList->Count) - 1);
+								//is_paid = 1;
+							}
+							delete pEditObjSpicy2;
+						}
+						else {
+							pEditObjSpicy1 = new Object(objSpicy1, 0, 0);
+							if (pEditingSpicy1->DeleteObject(*pEditObjSpicy1)) {
+								pOrderList->DeleteOrder((pOrderList->Count) - 1);
+								is_paid = 1;
+							}
+						}
+						delete pEditObjSpicy1;
+
+						objCooked1 = "꼬들하게";
+						pEditingCooked1 = pOrderList->GetOrder((pOrderList->Count) - 1);
+						pEditObjCooked1 = pEditing->GetObject(objCooked1);
+						if (pEditObjCooked1 == 0) {
+							objCooked2 = "기본익힘";
+							pEditingCooked2 = pOrderList->GetOrder((pOrderList->Count) - 1);
+							pEditObjCooked2 = pEditing->GetObject(objCooked2);
+							if (pEditObjCooked2 == 0) {
+								objCooked3 = "퍼지게";
+								pEditingCooked3 = pOrderList->GetOrder((pOrderList->Count) - 1);
+								pEditObjCooked3 = pEditing->GetObject(objCooked3);
+								pEditObjCooked3 = new Object(objCooked3, 0, 0);
+								if (pEditingCooked3->DeleteObject(*pEditObjCooked3)) {
+									pOrderList->DeleteOrder((pOrderList->Count) - 1);
+									//is_paid = 1;
+								}
+								delete pEditObjCooked3;
+							}
+							pEditObjCooked2 = new Object(objCooked2, 0, 0);
+							if (pEditingCooked2->DeleteObject(*pEditObjCooked2)) {
+								pOrderList->DeleteOrder((pOrderList->Count) - 1);
+								//is_paid = 1;
+							}
+							delete pEditObjCooked2;
+						}
+						else {
+							pEditObjCooked1 = new Object(objCooked1, 0, 0);
+							if (pEditingCooked1->DeleteObject(*pEditObjCooked1)) {
+								pOrderList->DeleteOrder((pOrderList->Count) - 1);
+								//is_paid = 1;
+							}
+						}
+						delete pEditObjCooked1;
+
+					}
+
+				}
+				else {
+					pEditObj = new Object(objName, pEditObj->Price, objCount);
+					if (pEditing->DeleteObject(*pEditObj)) {
+						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						is_paid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
+					}
+					delete pEditObj;
+				}
+			}
+		}
+		else {
+			cout << "행동을 잘못 입력하였습니다." << endl << endl;
+			return;
+		}
+		cout << "수정이 완료되었습니다." << endl << endl;
+		//return;
+
+		
 	}
-	else {
-		cout << "행동을 잘못 입력하였습니다." << endl << endl;
-		return;
-	}
-	cout << "수정이 완료되었습니다." << endl << endl;
-	return;
 }
 
 void OrderCategory::AddPay(void) {
