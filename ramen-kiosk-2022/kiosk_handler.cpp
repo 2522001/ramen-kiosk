@@ -413,8 +413,6 @@ void OrderCategory::AddPayment(void) {
 
 		cout << "결제수단을 선택해주세요. (카드, 네이버페이, 카카오페이)" << endl;
 
-		pPay = pPayList->AddPay();
-
 		cout << "(0을 입력하면 결제수단 선택을 종료합니다.)" << endl << endl;
 		cout << "> 결제수단을 입력하세요: ";
 		cin >> paymentName;
@@ -435,6 +433,7 @@ void OrderCategory::AddPayment(void) {
 
 		cin >> paySuccess;
 		if (paySuccess == "네") {
+			pPay = pPayList->AddPay();
 			pPayment = new Payment(paymentName);
 			pPay->AddPayment(*pPayment);
 			delete pPayment;
