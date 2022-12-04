@@ -29,7 +29,6 @@ bool OrderCategory::Run(void) {
 
 	cout << "> 선택지 번호를 입력하세요: ";
 	cin >> menu;
-	system("cls");
 	switch (menu) {
 	// case 0:
 		// bPrint = true;
@@ -114,8 +113,6 @@ void OrderCategory::AddOrder(void) {
 
 	string new_order;
 
-	system("cls");
-
 	cout << "-------------------------------------------------------------------" << endl <<
 		"<메뉴판>" << endl << endl
 		<< "[단품]" << endl
@@ -147,6 +144,7 @@ void OrderCategory::AddOrder(void) {
 		if (new_order == "네") {
 			// 결제 필요 상태의 이전 주문 삭제
 			pEditing = pOrderList->GetOrder(pOrderList->Count - 1);
+
 			if (pEditing) {
 				// order 내 모든 object 삭제
 				for (unsigned int i = 0; i < pEditing->Count; i++) {
@@ -163,7 +161,7 @@ void OrderCategory::AddOrder(void) {
 
 			is_paid = 1;
 		}
-		else { // 일단 '네' 이외에 아무거나 입력 시 작동하도록 함 (추후 예외 처리 필요)
+		else {
 			cout << "홈 화면으로 돌아갑니다." << endl;
 			return;
 		}
@@ -407,8 +405,6 @@ void OrderCategory::AddPay(void) {
 	Pay* pPay = 0;
 	string paySuccess;
 
-	// system("cls");
-
 	cout << endl << "<결제하기>" << endl << endl;
 
 	if (is_paid == 0) {
@@ -510,7 +506,7 @@ void OrderCategory::PrintReceipt(void)
 		cout << "합계\t\t\t\t\t" << sum << "원" << endl << endl;
 		cout << "----------------------------------------------" << endl;
 		cout << "결제 수단\t\t\t" << pPayItem->Name << endl << endl;
-		is_printed = 1;
+		is_printed = 1; // 출력 완료 상태로 전환
 		return;
 	}
 	else {

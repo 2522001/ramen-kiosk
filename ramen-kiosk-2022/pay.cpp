@@ -18,7 +18,7 @@ Pay::~Pay(void)
 	}
 }
 
-void Pay::AddPayment(const Payment& obj) // 1개의 결제수단 항목만 담을 수 있음
+void Pay::AddPayment(const Payment& obj)
 {
 	Payment** pmTemp = 0;
 
