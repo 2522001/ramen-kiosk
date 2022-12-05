@@ -1,14 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include "kiosk_handler.h"
+#include "kioskHandler.h"
 #include <ctime>
 
 OrderCategory::OrderCategory(const MenuItem& item, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), item(item), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
 {
 	// 멤버 변수 초기화
 	mode = 0; // default: 구매자 모드
-	is_paid = 1; // default: 결제 완료
-	is_printed = 1; // default: 출력 완료
+	isPaid = 1; // default: 결제 완료
+	isPrinted = 1; // default: 출력 완료
 }
 
 bool OrderCategory::Run(void) {
@@ -134,7 +134,7 @@ void OrderCategory::AddOrder(void) {
 
 	cout << "(0을 입력하면 메뉴 주문을 종료합니다.)" << endl << endl;
 
-	if (is_paid == 0) {
+	if (isPaid == 0) {
 		cout << "결제하지 않은 주문이 있습니다. (기존 주문의 수정은 3번을 선택하여 진행해주세요.)" << endl
 			<< "이전 주문을 삭제하고 새로 주문하시겠습니까? 네/아니요: ";
 		cin >> new_order;
@@ -156,7 +156,7 @@ void OrderCategory::AddOrder(void) {
 			}
 			cout << "삭제 완료" << endl;
 
-			is_paid = 1;
+			isPaid = 1;
 		}
 		else {
 			cout << "홈 화면으로 돌아갑니다." << endl;
@@ -164,7 +164,7 @@ void OrderCategory::AddOrder(void) {
 		}
 	}
 
-	if (is_paid == 1) {
+	if (isPaid == 1) {
 		pOrder = pOrderList->AddOrder();
 		while (true) {
 			cout << "> 주문할 메뉴를 입력하세요: ";
@@ -260,7 +260,7 @@ void OrderCategory::AddOrder(void) {
 
 			return;
 		}
-		is_paid = 0; // 새로운 주문이 추가되었으므로 결제 필요 상태로 전환
+		isPaid = 0; // 새로운 주문이 추가되었으므로 결제 필요 상태로 전환
 		cout << endl << "홈 화면으로 돌아갑니다." << endl << endl;
 		return;
 	}
@@ -276,7 +276,7 @@ void OrderCategory::PrintOrder(void) {
 
 	if (mode == 0) { // 구매자 모드: 결제 필요 상태의 가장 최근 주문 출력
 		cout << endl << "결제할 주문을 확인합니다." << endl << endl;
-		if (is_paid == 1) {
+		if (isPaid == 1) {
 			cout << "주문이 없습니다." << endl << endl;
 			return;
 		}
@@ -297,7 +297,7 @@ void OrderCategory::PrintOrder(void) {
 			sum = 0;
 		}
 	} else { // 관리자 모드: 결제 완료 상태의 모든 주문 리스트 출력
-		if (is_paid == 0) {
+		if (isPaid == 0) {
 			index = pOrderList->Count - 1; // 가장 최근 주문이 결제 필요 상태인 경우 해당 주문 빼고 출력
 		}
 		else {
@@ -369,7 +369,7 @@ void OrderCategory::EditOrder(void)
 
 	cout << endl << "주문을 수정합니다." << endl << endl;
 
-	if (is_paid == 1) {
+	if (isPaid == 1) {
 		cout << "주문이 없습니다." << endl << endl;
 		return;
 	}
@@ -406,7 +406,7 @@ void OrderCategory::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						//is_paid = 1;
+						//isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -419,7 +419,7 @@ void OrderCategory::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						//is_paid = 1;
+						//isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -432,7 +432,7 @@ void OrderCategory::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						is_paid = 1;
+						isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -453,14 +453,14 @@ void OrderCategory::EditOrder(void)
 								pEditOrderItemSpicy3 = new OrderItem(orderItemSpicy3, 0, 0);
 								if (pEditingSpicy3->DeleteOrderItem(*pEditOrderItemSpicy3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
-									//is_paid = 1;
+									//isPaid = 1;
 								}
 								delete pEditOrderItemSpicy3;
 							}
 							pEditOrderItemSpicy2 = new OrderItem(orderItemSpicy2, 0, 0);
 							if (pEditingSpicy2->DeleteOrderItem(*pEditOrderItemSpicy2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//is_paid = 1;
+								//isPaid = 1;
 							}
 							delete pEditOrderItemSpicy2;
 						}
@@ -468,7 +468,7 @@ void OrderCategory::EditOrder(void)
 							pEditOrderItemSpicy1 = new OrderItem(orderItemSpicy1, 0, 0);
 							if (pEditingSpicy1->DeleteOrderItem(*pEditOrderItemSpicy1)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								is_paid = 1;
+								isPaid = 1;
 							}
 						}
 						delete pEditOrderItemSpicy1;
@@ -487,14 +487,14 @@ void OrderCategory::EditOrder(void)
 								pEditOrderItemCooked3 = new OrderItem(orderItemCooked3, 0, 0);
 								if (pEditingCooked3->DeleteOrderItem(*pEditOrderItemCooked3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
-									//is_paid = 1;
+									//isPaid = 1;
 								}
 								delete pEditOrderItemCooked3;
 							}
 							pEditOrderItemCooked2 = new OrderItem(orderItemCooked2, 0, 0);
 							if (pEditingCooked2->DeleteOrderItem(*pEditOrderItemCooked2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//is_paid = 1;
+								//isPaid = 1;
 							}
 							delete pEditOrderItemCooked2;
 						}
@@ -502,7 +502,7 @@ void OrderCategory::EditOrder(void)
 							pEditOrderItemCooked1 = new OrderItem(orderItemCooked1, 0, 0);
 							if (pEditingCooked1->DeleteOrderItem(*pEditOrderItemCooked1)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//is_paid = 1;
+								//isPaid = 1;
 							}
 						}
 						delete pEditOrderItemCooked1;
@@ -514,7 +514,7 @@ void OrderCategory::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						is_paid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
+						isPaid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
 					}
 					delete pEditOrderItem;
 				}
@@ -544,7 +544,7 @@ void OrderCategory::AddPay(void) {
 
 	cout << endl << "<결제하기>" << endl << endl;
 
-	if (is_paid == 0) {
+	if (isPaid == 0) {
 		pOrder = pOrderList->GetOrder((pOrderList->Count) - 1); // 가장 최근 주문 불러오기
 		calculate = pOrder->Calculate();
 
@@ -577,9 +577,9 @@ void OrderCategory::AddPay(void) {
 			pPay->AddPayItem(*pPayItem);
 			delete pPayItem;
 
-			is_paid = 1; // 결제 완료 상태로 전환
+			isPaid = 1; // 결제 완료 상태로 전환
 			pRevManager->Calculate(calculate); // 결제된 금액 매출액 관리자에게 넘기기
-			is_printed = 0; // 출력할 내역이 생겼으므로 결제 필요 상태로 전환
+			isPrinted = 0; // 출력할 내역이 생겼으므로 결제 필요 상태로 전환
 			cout << "결제 성공" << endl;
 		}
 		else {
@@ -590,7 +590,7 @@ void OrderCategory::AddPay(void) {
 		cout << endl << calculate << "원이 결제되었습니다." << endl;
 		return;
 	}
-	else { // is_paid == 1일 때 (주문이 0개인 상태 포함)
+	else { // isPaid == 1일 때 (주문이 0개인 상태 포함)
 		cout << "결제할 주문이 없습니다." << endl;
 		return;
 	}
@@ -615,7 +615,7 @@ void OrderCategory::PrintReceipt(void)
 	time(&temp);
 	timeinfo = localtime(&temp);
 
-	if (is_printed == 0) {
+	if (isPrinted == 0) {
 		pOrder = pOrderList->GetOrder((pOrderList->Count) - 1);
 		calculate = pOrder->Calculate();
 
@@ -643,7 +643,7 @@ void OrderCategory::PrintReceipt(void)
 		cout << "합계\t\t\t\t\t" << sum << "원" << endl << endl;
 		cout << "----------------------------------------------" << endl;
 		cout << "결제 수단\t\t\t" << pPayItem->Name << endl << endl;
-		is_printed = 1; // 출력 완료 상태로 전환
+		isPrinted = 1; // 출력 완료 상태로 전환
 		return;
 	}
 	else {

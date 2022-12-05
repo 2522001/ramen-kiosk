@@ -1,4 +1,4 @@
-#include "pay_list.h"
+#include "payList.h"
 
 PayList::PayList(void) : list(0), count(0)
 {

@@ -127,27 +127,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="order_list.h" />
+    <ClInclude Include="orderList.h" />
     <ClInclude Include="kiosk.h" />
-    <ClInclude Include="kiosk_handler.h" />
+    <ClInclude Include="kioskHandler.h" />
     <ClInclude Include="order.h" />
-    <ClInclude Include="order_item.h" />
+    <ClInclude Include="orderItem.h" />
     <ClInclude Include="pay.h" />
-    <ClInclude Include="pay_item.h" />
-    <ClInclude Include="pay_list.h" />
-    <ClInclude Include="revenue_manager.h" />
+    <ClInclude Include="payItem.h" />
+    <ClInclude Include="payList.h" />
+    <ClInclude Include="revenueManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="order_list.cpp" />
+    <ClCompile Include="orderList.cpp" />
     <ClCompile Include="kiosk.cpp" />
-    <ClCompile Include="kiosk_handler.cpp" />
+    <ClCompile Include="kioskHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="order.cpp" />
-    <ClCompile Include="order_item.cpp" />
+    <ClCompile Include="orderItem.cpp" />
     <ClCompile Include="pay.cpp" />
-    <ClCompile Include="pay_item.cpp" />
-    <ClCompile Include="pay_list.cpp" />
-    <ClCompile Include="revenue_manager.cpp" />
+    <ClCompile Include="payItem.cpp" />
+    <ClCompile Include="payList.cpp" />
+    <ClCompile Include="revenueManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

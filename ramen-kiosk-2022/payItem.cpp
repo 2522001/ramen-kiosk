@@ -1,4 +1,4 @@
-#include "pay_item.h"
+#include "payItem.h"
 
 PayItem::PayItem(const std::string& name) : name(name)
 {

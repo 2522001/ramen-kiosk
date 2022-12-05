@@ -1,4 +1,4 @@
-#include "revenue_manager.h"
+#include "revenueManager.h"
 
 RevenueManager::RevenueManager(void) : today(0)
 {
