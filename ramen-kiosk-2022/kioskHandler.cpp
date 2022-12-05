@@ -401,6 +401,7 @@ void KioskHandler::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						isPaid = 1;
 					}
 					delete pEditOrderItem;
 
