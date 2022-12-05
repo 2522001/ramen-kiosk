@@ -2,82 +2,82 @@
 
 using namespace std;
 
-Pay::Pay(void) : paymentList(0), count(0)
+Pay::Pay(void) : list(0), count(0)
 {
 
 }
 Pay::~Pay(void)
 {
-	if (paymentList) {
+	if (list) {
 		for (unsigned int i = 0; i < count; i++) {
-			if (paymentList[i]) {
-				delete paymentList;
+			if (list[i]) {
+				delete list;
 			}
 		}
-		delete[] paymentList;
+		delete[] list;
 	}
 }
 
-void Pay::AddPayment(const Payment& obj)
+void Pay::AddPayItem(const PayItem& payitem)
 {
-	Payment** pmTemp = 0;
+	PayItem** temp = 0;
 
-	pmTemp = new Payment * [count + 1];
+	temp = new PayItem * [count + 1];
 
 	for (unsigned int i = 0; i < count; i++) {
-		pmTemp[i] = paymentList[i];
+		temp[i] = list[i];
 	}
 
-	pmTemp[count] = new Payment(obj);
+	temp[count] = new PayItem(payitem);
 	count += 1;
 
-	delete[] paymentList;
-	paymentList = pmTemp;
+	delete[] list;
+	list = temp;
 
 	return;
 }
 
-bool Pay::DeletePayment(const Payment& obj)
+bool Pay::DeletePayItem(const PayItem& payitem)
 {
 	unsigned int deleteId = 0;
-	Payment** pmTemp = 0;
+	PayItem** temp = 0;
 
 	for (unsigned int i = 0; i < count; i++) {
-		if (paymentList[i]->Name == obj.Name) {
+		if (list[i]->Name == payitem.Name) {
 				deleteId = i;
 				break;
 			}
 		}
 	if (count > 1) {
-		pmTemp = new Payment * [count - 1];
+		temp = new PayItem * [count - 1];
 	}
 	for (unsigned int i = 0; i < deleteId; i++) {
-		pmTemp[i] = paymentList[i];
+		temp[i] = list[i];
 	}
 	for (unsigned int i = deleteId + 1; i < count; i++) {
-		pmTemp[i - 1] = paymentList[i];
+		temp[i - 1] = list[i];
 	}
 
-	delete paymentList[deleteId];
+	delete list[deleteId];
 	count -= 1;
 
-	delete[] paymentList;
-	paymentList = pmTemp;
+	delete[] list;
+	list = temp;
 
 	return count == 0;
 }
 
-Payment* Pay::GetPayment(unsigned int index) const {
+PayItem* Pay::GetPayItem(unsigned int index) const {
 	if (index >= count) {
 		return 0;
 	}
-	return paymentList[index];
+	return list[index];
 }
 
-Payment* Pay::GetPayment(const string& name) const {
+PayItem* Pay::GetPayItem(const string& name) const {
 	for (unsigned int i = 0; i < count; i++) {
-		if (paymentList[i]->Name == name) {
-			return paymentList[i];
+		if (list[i]->Name == name) {
+			return list[i];
 		}
 	}
 	return 0;

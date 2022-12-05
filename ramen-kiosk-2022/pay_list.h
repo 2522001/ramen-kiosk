@@ -6,7 +6,7 @@
 class PayList
 {
 private:
-	Pay** paymentList;
+	Pay** list;
 	unsigned int count;
 
 public:

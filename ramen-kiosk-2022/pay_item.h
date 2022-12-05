@@ -1,14 +1,14 @@
 #pragma once
 
 #include <string>
-class Payment
+class PayItem
 {
 private:
 	std::string name;
 
 public:
-	Payment(const std::string& name);
-	Payment(const Payment& copy);
+	PayItem(const std::string& name);
+	PayItem(const PayItem& copy);
 
 	const std::string& Name = name;
 };

@@ -33,9 +33,9 @@ Kiosk::Kiosk(void) : handle(item, &orderList, payItem, &payList, &revManager)
 	item.AddOrderItem(OrderItem("세트 메뉴 2번", 5000, 1));
 
 	// 결제수단
-	payItem.AddPayment(Payment("카드"));
-	payItem.AddPayment(Payment("네이버페이"));
-	payItem.AddPayment(Payment("카카오페이"));
+	payItem.AddPayItem(PayItem("카드"));
+	payItem.AddPayItem(PayItem("네이버페이"));
+	payItem.AddPayItem(PayItem("카카오페이"));
 }
 
 int Kiosk::Run(void)

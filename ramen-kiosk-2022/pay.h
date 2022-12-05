@@ -6,18 +6,18 @@
 class Pay
 {
 private:
-	Payment** paymentList;
+	PayItem** list;
 	unsigned int count;
 
 public:
 	Pay(void);
 	~Pay(void);
 
-	void AddPayment(const Payment& obj);
-	bool DeletePayment(const Payment& obj);
+	void AddPayItem(const PayItem& payitem);
+	bool DeletePayItem(const PayItem& payitem);
 
-	Payment* GetPayment(unsigned int index) const;
-	Payment* GetPayment(const std::string& name) const;
+	PayItem* GetPayItem(unsigned int index) const;
+	PayItem* GetPayItem(const std::string& name) const;
 
 	const unsigned int& Count = count;
 };

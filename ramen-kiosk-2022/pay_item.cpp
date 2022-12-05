@@ -1,11 +1,11 @@
 #include "pay_item.h"
 
-Payment::Payment(const std::string& name) : name(name)
+PayItem::PayItem(const std::string& name) : name(name)
 {
 
 }
 
-Payment::Payment(const Payment& copy) : name(copy.name), Name(name)
+PayItem::PayItem(const PayItem& copy) : name(copy.name), Name(name)
 {
 
 }

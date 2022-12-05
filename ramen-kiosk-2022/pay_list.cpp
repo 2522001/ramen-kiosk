@@ -1,61 +1,61 @@
 #include "pay_list.h"
 
-PayList::PayList(void) : paymentList(0), count(0)
+PayList::PayList(void) : list(0), count(0)
 {
 
 }
 
 PayList::~PayList(void)
 {
-	if (paymentList) {
+	if (list) {
 		for (unsigned int i = 0; i < count; i++) {
-			if (paymentList[i]) {
-				delete paymentList[i];
+			if (list[i]) {
+				delete list[i];
 			}
 		}
-		delete[] paymentList;
+		delete[] list;
 	}
 }
 
 Pay* PayList::AddPay(void)
 {
-	Pay** paymentTemp = 0;
+	Pay** temp = 0;
 
-	paymentTemp = new Pay * [Count + 1];
+	temp = new Pay * [Count + 1];
 	for (unsigned int i = 0; i < count; i++) {
-		paymentTemp[i] = paymentList[i];
+		temp[i] = list[i];
 	}
-	paymentTemp[count] = new Pay;
+	temp[count] = new Pay;
 	count += 1;
 
-	delete[] paymentList;
-	paymentList = paymentTemp;
+	delete[] list;
+	list = temp;
 
-	return paymentList[Count - 1];
+	return list[Count - 1];
 }
 
 void PayList::DeletePay(unsigned int index)
 {
-	Pay** paymentTemp = 0;
+	Pay** temp = 0;
 
 	if (index >= count) {
 		return;
 	}
-	paymentTemp = new Pay * [count - 1];
+	temp = new Pay * [count - 1];
 
 	for (unsigned int i = 0; i < index; i++) {
-		paymentTemp[i] = paymentList[i];
+		temp[i] = list[i];
 	}
 
 	for (unsigned int i = index + 1; i < count; i++) {
-		paymentTemp[i - 1] = paymentList[i];
+		temp[i - 1] = list[i];
 	}
 
-	delete paymentList[index];
+	delete list[index];
 	count -= 1;
 
-	delete[] paymentList;
-	paymentList = paymentTemp;
+	delete[] list;
+	list = temp;
 	return;
 }
 
@@ -63,5 +63,5 @@ Pay* PayList::GetPay(unsigned int index) {
 	if (index >= count) {
 		return 0;
 	}
-	return paymentList[index];
+	return list[index];
 }

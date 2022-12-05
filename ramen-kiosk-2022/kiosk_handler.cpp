@@ -537,8 +537,8 @@ void OrderCategory::AddPay(void) {
 	unsigned int calculate = 0;
 	Order* pOrder = 0;
 
-	string paymentName;
-	Payment* pPayItem = 0;
+	string payItemName;
+	PayItem* pPayItem = 0;
 	Pay* pPay = 0;
 	string paySuccess;
 
@@ -554,27 +554,27 @@ void OrderCategory::AddPay(void) {
 
 		cout << "(0을 입력하면 결제수단 선택을 종료합니다.)" << endl << endl;
 		cout << "> 결제수단을 입력하세요: ";
-		cin >> paymentName;
+		cin >> payItemName;
 
-		if (paymentName == "0") {
+		if (payItemName == "0") {
 			cout << "결제수단이 선택되지 않았습니다." << endl;
 			return;
 		}
 
-		pPayItem = payItem.GetPayment(paymentName);
+		pPayItem = payItem.GetPayItem(payItemName);
 		if (pPayItem == 0) {
 			cout << "해당 결제수단은 없습니다." << endl;
 			return;
 		}
 
-		cout << endl << paymentName << " 결제수단이 선택되었습니다." << endl;
+		cout << endl << payItemName << " 결제수단이 선택되었습니다." << endl;
 		cout << endl << "> 결제하시겠습니까? 네/아니요: ";
 
 		cin >> paySuccess;
 		if (paySuccess == "네") {
 			pPay = pPayList->AddPay();
-			pPayItem = new Payment(paymentName);
-			pPay->AddPayment(*pPayItem);
+			pPayItem = new PayItem(payItemName);
+			pPay->AddPayItem(*pPayItem);
 			delete pPayItem;
 
 			is_paid = 1; // 결제 완료 상태로 전환
@@ -603,7 +603,7 @@ void OrderCategory::PrintReceipt(void)
 	Order* pOrder = 0;
 	OrderItem* pOrderItem = 0;
 
-	Payment* pPayItem = 0;
+	PayItem* pPayItem = 0;
 	Pay* pPay = 0;
 
 	unsigned int sum = 0;
@@ -637,7 +637,7 @@ void OrderCategory::PrintReceipt(void)
 		}
 
 		pPay = pPayList->GetPay((pPayList->Count) - 1);
-		pPayItem = pPay->GetPayment(0); // 항상 0번째 자리에 있으므로
+		pPayItem = pPay->GetPayItem(0); // 항상 0번째 자리에 있으므로
 
 		cout << "----------------------------------------------" << endl;
 		cout << "합계\t\t\t\t\t" << sum << "원" << endl << endl;
