@@ -6,7 +6,7 @@
 class OrderList
 {
 private:
-	Order** rmList;
+	Order** list;
 	unsigned int count;
 
 public:

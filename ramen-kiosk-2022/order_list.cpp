@@ -1,61 +1,61 @@
 #include "order_list.h"
 
-OrderList::OrderList(void) : rmList(0), count(0)
+OrderList::OrderList(void) : list(0), count(0)
 {
 
 }
 
 OrderList::~OrderList(void)
 {
-	if (rmList) {
+	if (list) {
 		for (unsigned int i = 0; i < count; i++) {
-			if (rmList[i]) {
-				delete rmList[i];
+			if (list[i]) {
+				delete list[i];
 			}
 		}
-		delete[] rmList;
+		delete[] list;
 	}
 }
 
 Order* OrderList::AddOrder(void)
 {
-	Order** rmTemp = 0;
+	Order** temp = 0;
 
-	rmTemp = new Order * [Count + 1];
+	temp = new Order * [Count + 1];
 	for (unsigned int i = 0; i < count; i++) {
-		rmTemp[i] = rmList[i];
+		temp[i] = list[i];
 	}
-	rmTemp[count] = new Order;
+	temp[count] = new Order;
 	count += 1;
 
-	delete[] rmList;
-	rmList = rmTemp;
+	delete[] list;
+	list = temp;
 
-	return rmList[Count - 1];
+	return list[Count - 1];
 }
 
 void OrderList::DeleteOrder(unsigned int index)
 {
-	Order** rmTemp = 0;
+	Order** temp = 0;
 
 	if (index >= count) {
 		return;
 	}
-	rmTemp = new Order * [count - 1];
+	temp = new Order * [count - 1];
 
 	for (unsigned int i = 0; i < index; i++) {
-		rmTemp[i] = rmList[i];
+		temp[i] = list[i];
 	}
 
 	for (unsigned int i = index + 1; i < count; i++) {
-		rmTemp[i - 1] = rmList[i];
+		temp[i - 1] = list[i];
 	}
 
-	delete rmList[index];
+	delete list[index];
 	count -= 1;
 
-	delete[] rmList;
-	rmList = rmTemp;
+	delete[] list;
+	list = temp;
 	return;
 }
 
@@ -63,5 +63,5 @@ Order* OrderList::GetOrder(unsigned int index) {
 	if (index >= count) {
 		return 0;
 	}
-	return rmList[index];
+	return list[index];
 }

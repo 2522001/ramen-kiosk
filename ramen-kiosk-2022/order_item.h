@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-class Object
+class OrderItem
 {
 private:
 	std::string name;
@@ -9,8 +9,8 @@ private:
 	unsigned int count;
 
 public:
-	Object(const std::string& name, unsigned int price, unsigned int count);
-	Object(const Object& copy); //재참조
+	OrderItem(const std::string& name, unsigned int price, unsigned int count);
+	OrderItem(const OrderItem& copy); //재참조
 
 	unsigned int EditCount(int count);
 	unsigned int Calculate(void) const; //전체 가격 계산

@@ -1,16 +1,16 @@
 #include "order_item.h"
 
-Object::Object(const std::string& name, unsigned int price, unsigned int count) : name(name), price(price), count(count)
+OrderItem::OrderItem(const std::string& name, unsigned int price, unsigned int count) : name(name), price(price), count(count)
 {
 
 }
 
-Object::Object(const Object& copy) : name(copy.name), price(copy.price), count(copy.count), Name(name), Price(price), Count(count)
+OrderItem::OrderItem(const OrderItem& copy) : name(copy.name), price(copy.price), count(copy.count), Name(name), Price(price), Count(count)
 {
 
 }
 
-unsigned int Object::EditCount(int count)
+unsigned int OrderItem::EditCount(int count)
 {
 	unsigned int prev = 0;
 
@@ -27,7 +27,7 @@ unsigned int Object::EditCount(int count)
 	return prev;
 }
 
-unsigned int Object::Calculate(void) const
+unsigned int OrderItem::Calculate(void) const
 {
 	return price * count;
 }
