@@ -2,95 +2,95 @@
 
 using namespace std;
 
-Order::Order(void) : rmList(0), count(0)
+Order::Order(void) : list(0), count(0)
 {
 
 }
 Order::~Order(void)
 {
-	if (rmList) {
+	if (list) {
 		for (unsigned int i = 0; i < count; i++) {
-			if (rmList[i]) {
-				delete rmList;
+			if (list[i]) {
+				delete list;
 			}
 		}
-		delete[] rmList;
+		delete[] list;
 	}
 }
 
-void Order::AddObject(const Object& obj)
+void Order::AddOrderItem(const OrderItem& orderItem)
 {
-	Object** rmTemp = 0;
+	OrderItem** temp = 0;
 
 	for (unsigned int i = 0; i < count; i++) {
-		if (rmList[i]->Name == obj.Name) {
-			rmList[i]->EditCount(obj.Count);
+		if (list[i]->Name == orderItem.Name) {
+			list[i]->EditCount(orderItem.Count);
 
 			return;
 		}
 	}
-	rmTemp = new Object * [count + 1];
+	temp = new OrderItem * [count + 1];
 
 	for (unsigned int i = 0; i < count; i++) {
-		rmTemp[i] = rmList[i];
+		temp[i] = list[i];
 	}
 
-	rmTemp[count] = new Object(obj);
+	temp[count] = new OrderItem(orderItem);
 	count += 1;
 
-	delete[] rmList;
-	rmList = rmTemp;
+	delete[] list;
+	list = temp;
 
 	return;
 }
 
-bool Order::DeleteObject(const Object& obj)
+bool Order::DeleteOrderItem(const OrderItem& orderItem)
 {
 	unsigned int deleteId = 0;
-	Object** rmTemp = 0;
+	OrderItem** temp = 0;
 
 	for (unsigned int i = 0; i < count; i++) {
-		if (rmList[i]->Name == obj.Name) {
-			if (rmList[i]->Count <= obj.Count) {
+		if (list[i]->Name == orderItem.Name) {
+			if (list[i]->Count <= orderItem.Count) {
 				deleteId = i;
 				break;
 			}
 			else {
-				rmList[i]->EditCount(-static_cast<int>(obj.Count));
+				list[i]->EditCount(-static_cast<int>(orderItem.Count));
 				return false;
 			}
 		}
 	}
 	if (count > 1) {
-		rmTemp = new Object * [count - 1];
+		temp = new OrderItem * [count - 1];
 	}
 	for (unsigned int i = 0; i < deleteId; i++) {
-		rmTemp[i] = rmList[i];
+		temp[i] = list[i];
 	}
 	for (unsigned int i = deleteId + 1; i < count; i++) {
-		rmTemp[i - 1] = rmList[i];
+		temp[i - 1] = list[i];
 	}
 
-	delete rmList[deleteId];
+	delete list[deleteId];
 	count -= 1;
 
-	delete[] rmList;
-	rmList = rmTemp;
+	delete[] list;
+	list = temp;
 
 	return count == 0;
 }
 
-Object* Order::GetObject(unsigned int index) const {
+OrderItem* Order::GetOrderItem(unsigned int index) const {
 	if (index >= count) {
 		return 0;
 	}
-	return rmList[index];
+	return list[index];
 }
 
-Object* Order::GetObject(const string& name) const {
+OrderItem* Order::GetOrderItem(const string& name) const {
 	for (unsigned int i = 0; i < count; i++) {
-		if (rmList[i]->Name == name) {
-			return rmList[i];
+		if (list[i]->Name == name) {
+			return list[i];
 		}
 	}
 	return 0;
@@ -101,7 +101,7 @@ unsigned int Order::Calculate(void) const
 	unsigned int sum = 0;
 
 	for (unsigned int i = 0; i < count; i++) {
-		sum += rmList[i]->Calculate();
+		sum += list[i]->Calculate();
 	}
 	return sum;
 }

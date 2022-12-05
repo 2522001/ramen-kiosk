@@ -6,18 +6,18 @@
 class Order
 {
 private:
-	Object** rmList;
+	OrderItem** list;
 	unsigned int count;
 
 public:
 	Order(void);
 	~Order(void);
 
-	void AddObject(const Object& obj);
-	bool DeleteObject(const Object& obj);
+	void AddOrderItem(const OrderItem& orderItem);
+	bool DeleteOrderItem(const OrderItem& orderItem);
 
-	Object* GetObject(unsigned int index) const;
-	Object* GetObject(const std::string& name) const;
+	OrderItem* GetOrderItem(unsigned int index) const;
+	OrderItem* GetOrderItem(const std::string& name) const;
 
 	unsigned int Calculate(void) const;
 
