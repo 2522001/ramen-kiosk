@@ -103,8 +103,8 @@ void OrderCategory::AddOrder(void) {
 	string orderItemCooked;
 
 	unsigned int orderItemCount = 0;
-	Object* pOrderItem = 0;
-	Object* pEditOrderItem = 0;
+	OrderItem* pOrderItem = 0;
+	OrderItem* pEditOrderItem = 0;
 	Order* pOrder = 0;
 	Order* pEditing = 0;
 
@@ -145,10 +145,10 @@ void OrderCategory::AddOrder(void) {
 			if (pEditing) {
 				// order 내 모든 object 삭제
 				for (unsigned int i = 0; i < pEditing->Count; i++) {
-					pEditOrderItem = pEditing->GetObject(i);
-					pEditOrderItem = new Object(pEditOrderItem->Name, pEditOrderItem->Price, pEditOrderItem->Count);
+					pEditOrderItem = pEditing->GetOrderItem(i);
+					pEditOrderItem = new OrderItem(pEditOrderItem->Name, pEditOrderItem->Price, pEditOrderItem->Count);
 				}
-				if (pEditing->DeleteObject(*pEditOrderItem)) { // object가 모두 삭제 되어 order가 비었다면
+				if (pEditing->DeleteOrderItem(*pEditOrderItem)) { // object가 모두 삭제 되어 order가 비었다면
 					pOrderList->DeleteOrder(pOrderList->Count - 1); // 해당 주문 주문리스트에서 삭제
 
 					delete pEditOrderItem;
@@ -174,7 +174,7 @@ void OrderCategory::AddOrder(void) {
 				break;
 			}
 
-			pOrderItem = item.GetObject(orderItemName);
+			pOrderItem = item.GetOrderItem(orderItemName);
 			if (pOrderItem == 0) {
 				cout << "해당 메뉴는 없습니다." << endl;
 				continue;
@@ -192,7 +192,7 @@ void OrderCategory::AddOrder(void) {
 					break;
 				}
 
-				pOrderItem = item.GetObject(orderItemSpicy);
+				pOrderItem = item.GetOrderItem(orderItemSpicy);
 				if (pOrderItem == 0) {
 					cout << "해당 맵기정도는 없습니다." << endl;
 					goto ONE;
@@ -207,7 +207,7 @@ void OrderCategory::AddOrder(void) {
 					break;
 				}
 
-				pOrderItem = item.GetObject(orderItemCooked);
+				pOrderItem = item.GetOrderItem(orderItemCooked);
 				if (pOrderItem == 0) {
 					cout << "해당 익힘정도는 없습니다." << endl;
 					goto TWO;
@@ -221,10 +221,10 @@ void OrderCategory::AddOrder(void) {
 				}
 
 				
-				pOrderItem = new Object(orderItemName, ramenPrice, orderItemCount);
+				pOrderItem = new OrderItem(orderItemName, ramenPrice, orderItemCount);
 
 
-				pOrder->AddObject(*pOrderItem);
+				pOrder->AddOrderItem(*pOrderItem);
 
 			}
 			else {
@@ -235,18 +235,18 @@ void OrderCategory::AddOrder(void) {
 					break;
 				}
 
-				pOrderItem = new Object(orderItemName, pOrderItem->Price, orderItemCount);
+				pOrderItem = new OrderItem(orderItemName, pOrderItem->Price, orderItemCount);
 
-				pOrder->AddObject(*pOrderItem);
+				pOrder->AddOrderItem(*pOrderItem);
 			}
 
 			if (orderItemName == "일반라면" || orderItemName == "순두부라면" || orderItemName == "떡라면" || orderItemName == "만두라면" || orderItemName == "치즈라면") {
-				pOrderItem = new Object(orderItemSpicy, 0, 0);
-				pOrder->AddObject(*pOrderItem);
+				pOrderItem = new OrderItem(orderItemSpicy, 0, 0);
+				pOrder->AddOrderItem(*pOrderItem);
 
-				pOrderItem = new Object(orderItemCooked, 0, 0);
+				pOrderItem = new OrderItem(orderItemCooked, 0, 0);
 
-				pOrder->AddObject(*pOrderItem);
+				pOrder->AddOrderItem(*pOrderItem);
 
 			}
 
@@ -270,7 +270,7 @@ void OrderCategory::PrintOrder(void) {
 	using namespace std;
 
 	Order* pOrder = 0;
-	Object* pOrderItem = 0;
+	OrderItem* pOrderItem = 0;
 	unsigned int sum = 0;
 	unsigned int index = 0;
 
@@ -288,7 +288,7 @@ void OrderCategory::PrintOrder(void) {
 			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
 			cout << "(주문내역)" << endl << endl;
 			for (unsigned int j = 0; j < pOrder->Count; j++) {
-				pOrderItem = pOrder->GetObject(j);
+				pOrderItem = pOrder->GetOrderItem(j);
 				cout << " ->     " << pOrderItem->Name << "   " << pOrderItem->Count << "개        " << pOrderItem->Calculate() << "원" << endl;
 				sum += pOrderItem->Calculate();
 			}
@@ -318,7 +318,7 @@ void OrderCategory::PrintOrder(void) {
 			cout << "(주문내역)" << endl << endl;
 			//cout << "        (메뉴)               (수량)      (금액)   " << endl;
 			for (unsigned int j = 0; j < pOrder->Count; j++) {
-				pOrderItem = pOrder->GetObject(j);
+				pOrderItem = pOrder->GetOrderItem(j);
 				cout << " ->     " << pOrderItem->Name << "   " << pOrderItem->Count << "개        " << pOrderItem->Calculate() << "원" << endl;
 				sum += pOrderItem->Calculate();
 			}
@@ -339,26 +339,26 @@ void OrderCategory::EditOrder(void)
 	unsigned int index = 0;
 
 	Order* pEditing = 0;
-	Object* pEditOrderItem = 0;
+	OrderItem* pEditOrderItem = 0;
 
 	string orderItemName;
 	Order* pEditingSpicy1 = 0;
-	Object* pEditOrderItemSpicy1 = 0;
+	OrderItem* pEditOrderItemSpicy1 = 0;
 	Order* pEditingSpicy2 = 0;
-	Object* pEditOrderItemSpicy2 = 0;
+	OrderItem* pEditOrderItemSpicy2 = 0;
 	Order* pEditingSpicy3 = 0;
-	Object* pEditOrderItemSpicy3 = 0;
+	OrderItem* pEditOrderItemSpicy3 = 0;
 
 	string orderItemSpicy1;
 	string orderItemSpicy2;
 	string orderItemSpicy3;
 
 	Order* pEditingCooked1 = 0;
-	Object* pEditOrderItemCooked1 = 0;
+	OrderItem* pEditOrderItemCooked1 = 0;
 	Order* pEditingCooked2 = 0;
-	Object* pEditOrderItemCooked2 = 0;
+	OrderItem* pEditOrderItemCooked2 = 0;
 	Order* pEditingCooked3 = 0;
-	Object* pEditOrderItemCooked3 = 0;
+	OrderItem* pEditOrderItemCooked3 = 0;
 
 	string orderItemCooked1;
 	string orderItemCooked2;
@@ -384,89 +384,89 @@ void OrderCategory::EditOrder(void)
 		}
 
 		if (behavior == "추가") {
-			pEditOrderItem = item.GetObject(orderItemName);
+			pEditOrderItem = item.GetOrderItem(orderItemName);
 			if (pEditOrderItem == 0) {
 				cout << "메뉴를 찾을 수 없습니다." << endl << endl;
 				continue;
 			}
 			else {
-				pEditOrderItem = new Object(orderItemName, pEditOrderItem->Price, orderItemCount);
-				pEditing->AddObject(*pEditOrderItem);
+				pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
+				pEditing->AddOrderItem(*pEditOrderItem);
 				delete pEditOrderItem;
 			}
 		}
 		else if (behavior == "제거") {
-			pEditOrderItem = pEditing->GetObject(orderItemName);
+			pEditOrderItem = pEditing->GetOrderItem(orderItemName);
 			if (pEditOrderItem == 0) {
 				cout << "메뉴를 찾을 수 없습니다." << endl << endl;
 				continue;
 			}
 			else {
 				if (orderItemName == "덜맵게" || orderItemName == "기본맵기" || orderItemName == "더맵게") {
-					pEditOrderItem = new Object(orderItemName, pEditOrderItem->Price, orderItemCount);
-					if (pEditing->DeleteObject(*pEditOrderItem)) {
+					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
+					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
 						//is_paid = 1;
 					}
 					delete pEditOrderItem;
 
-					pEditOrderItem = new Object("기본맵기", 0, 0);
-					pEditing->AddObject(*pEditOrderItem);
+					pEditOrderItem = new OrderItem("기본맵기", 0, 0);
+					pEditing->AddOrderItem(*pEditOrderItem);
 					delete pEditOrderItem;
 
 				}
 				else if (orderItemName == "꼬들하게" || orderItemName == "기본익힘" || orderItemName == "퍼지게") {
-					pEditOrderItem = new Object(orderItemName, pEditOrderItem->Price, orderItemCount);
-					if (pEditing->DeleteObject(*pEditOrderItem)) {
+					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
+					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
 						//is_paid = 1;
 					}
 					delete pEditOrderItem;
 
-					pEditOrderItem = new Object("기본익힘", 0, 0);
-					pEditing->AddObject(*pEditOrderItem);
+					pEditOrderItem = new OrderItem("기본익힘", 0, 0);
+					pEditing->AddOrderItem(*pEditOrderItem);
 					delete pEditOrderItem;
 
 				}
 				else if (orderItemName == "일반라면" || orderItemName == "순두부라면" || orderItemName == "떡라면" || orderItemName == "만두라면" || orderItemName == "치즈라면") {
-					pEditOrderItem = new Object(orderItemName, pEditOrderItem->Price, orderItemCount);
-					if (pEditing->DeleteObject(*pEditOrderItem)) {
+					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
+					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
 						is_paid = 1;
 					}
 					delete pEditOrderItem;
 
-					pEditOrderItem = pEditing->GetObject(orderItemName);
+					pEditOrderItem = pEditing->GetOrderItem(orderItemName);
 					if (pEditOrderItem == 0) {
 						// 라면이 아예 0개로 제거되는 경우 옵션 삭제
 						orderItemSpicy1 = "덜맵게";
 						pEditingSpicy1 = pOrderList->GetOrder((pOrderList->Count) - 1);
-						pEditOrderItemSpicy1 = pEditing->GetObject(orderItemSpicy1);
+						pEditOrderItemSpicy1 = pEditing->GetOrderItem(orderItemSpicy1);
 						if (pEditOrderItemSpicy1 == 0) {
 							orderItemSpicy2 = "기본맵기";
 							pEditingSpicy2 = pOrderList->GetOrder((pOrderList->Count) - 1);
-							pEditOrderItemSpicy2 = pEditing->GetObject(orderItemSpicy2);
+							pEditOrderItemSpicy2 = pEditing->GetOrderItem(orderItemSpicy2);
 							if (pEditOrderItemSpicy2 == 0) {
 								orderItemSpicy3 = "더맵게";
 								pEditingSpicy3 = pOrderList->GetOrder((pOrderList->Count) - 1);
-								pEditOrderItemSpicy3 = pEditing->GetObject(orderItemSpicy3);
-								pEditOrderItemSpicy3 = new Object(orderItemSpicy3, 0, 0);
-								if (pEditingSpicy3->DeleteObject(*pEditOrderItemSpicy3)) {
+								pEditOrderItemSpicy3 = pEditing->GetOrderItem(orderItemSpicy3);
+								pEditOrderItemSpicy3 = new OrderItem(orderItemSpicy3, 0, 0);
+								if (pEditingSpicy3->DeleteOrderItem(*pEditOrderItemSpicy3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
 									//is_paid = 1;
 								}
 								delete pEditOrderItemSpicy3;
 							}
-							pEditOrderItemSpicy2 = new Object(orderItemSpicy2, 0, 0);
-							if (pEditingSpicy2->DeleteObject(*pEditOrderItemSpicy2)) {
+							pEditOrderItemSpicy2 = new OrderItem(orderItemSpicy2, 0, 0);
+							if (pEditingSpicy2->DeleteOrderItem(*pEditOrderItemSpicy2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
 								//is_paid = 1;
 							}
 							delete pEditOrderItemSpicy2;
 						}
 						else {
-							pEditOrderItemSpicy1 = new Object(orderItemSpicy1, 0, 0);
-							if (pEditingSpicy1->DeleteObject(*pEditOrderItemSpicy1)) {
+							pEditOrderItemSpicy1 = new OrderItem(orderItemSpicy1, 0, 0);
+							if (pEditingSpicy1->DeleteOrderItem(*pEditOrderItemSpicy1)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
 								is_paid = 1;
 							}
@@ -475,32 +475,32 @@ void OrderCategory::EditOrder(void)
 
 						orderItemCooked1 = "꼬들하게";
 						pEditingCooked1 = pOrderList->GetOrder((pOrderList->Count) - 1);
-						pEditOrderItemCooked1 = pEditing->GetObject(orderItemCooked1);
+						pEditOrderItemCooked1 = pEditing->GetOrderItem(orderItemCooked1);
 						if (pEditOrderItemCooked1 == 0) {
 							orderItemCooked2 = "기본익힘";
 							pEditingCooked2 = pOrderList->GetOrder((pOrderList->Count) - 1);
-							pEditOrderItemCooked2 = pEditing->GetObject(orderItemCooked2);
+							pEditOrderItemCooked2 = pEditing->GetOrderItem(orderItemCooked2);
 							if (pEditOrderItemCooked2 == 0) {
 								orderItemCooked3 = "퍼지게";
 								pEditingCooked3 = pOrderList->GetOrder((pOrderList->Count) - 1);
-								pEditOrderItemCooked3 = pEditing->GetObject(orderItemCooked3);
-								pEditOrderItemCooked3 = new Object(orderItemCooked3, 0, 0);
-								if (pEditingCooked3->DeleteObject(*pEditOrderItemCooked3)) {
+								pEditOrderItemCooked3 = pEditing->GetOrderItem(orderItemCooked3);
+								pEditOrderItemCooked3 = new OrderItem(orderItemCooked3, 0, 0);
+								if (pEditingCooked3->DeleteOrderItem(*pEditOrderItemCooked3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
 									//is_paid = 1;
 								}
 								delete pEditOrderItemCooked3;
 							}
-							pEditOrderItemCooked2 = new Object(orderItemCooked2, 0, 0);
-							if (pEditingCooked2->DeleteObject(*pEditOrderItemCooked2)) {
+							pEditOrderItemCooked2 = new OrderItem(orderItemCooked2, 0, 0);
+							if (pEditingCooked2->DeleteOrderItem(*pEditOrderItemCooked2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
 								//is_paid = 1;
 							}
 							delete pEditOrderItemCooked2;
 						}
 						else {
-							pEditOrderItemCooked1 = new Object(orderItemCooked1, 0, 0);
-							if (pEditingCooked1->DeleteObject(*pEditOrderItemCooked1)) {
+							pEditOrderItemCooked1 = new OrderItem(orderItemCooked1, 0, 0);
+							if (pEditingCooked1->DeleteOrderItem(*pEditOrderItemCooked1)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
 								//is_paid = 1;
 							}
@@ -511,8 +511,8 @@ void OrderCategory::EditOrder(void)
 
 				}
 				else {
-					pEditOrderItem = new Object(orderItemName, pEditOrderItem->Price, orderItemCount);
-					if (pEditing->DeleteObject(*pEditOrderItem)) {
+					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
+					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
 						is_paid = 1; // 해당 주문이 사라졌으므로 주문 완료 상태로 전환
 					}
@@ -601,7 +601,7 @@ void OrderCategory::PrintReceipt(void)
 	using namespace std;
 
 	Order* pOrder = 0;
-	Object* pOrderItem = 0;
+	OrderItem* pOrderItem = 0;
 
 	Payment* pPayItem = 0;
 	Pay* pPay = 0;
@@ -631,7 +631,7 @@ void OrderCategory::PrintReceipt(void)
 		cout << "----------------------------------------------" << endl;
 
 		for (unsigned int i = 0; i < (pOrder->Count); i++) {
-			pOrderItem = pOrder->GetObject(i);
+			pOrderItem = pOrder->GetOrderItem(i);
 			cout << " ->     " << pOrderItem->Name << "\t\t" << pOrderItem->Count << "\t" << pOrderItem->Calculate() << endl;
 			sum += pOrderItem->Calculate();
 		}
