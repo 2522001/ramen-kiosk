@@ -267,8 +267,13 @@ void KioskHandler::CheckOrder(void) {
 
 	Order* pOrder = 0;
 	OrderItem* pOrderItem = 0;
+
+	PayItem* pPayItem = 0;
+	Pay* pPay = 0;
+
 	unsigned int sum = 0;
 	unsigned int index = 0;
+
 
 	if (mode == 0) { // 구매자 모드: 결제 필요 상태의 가장 최근 주문 출력
 		cout << endl << "결제할 주문을 확인합니다." << endl << endl;
@@ -278,7 +283,6 @@ void KioskHandler::CheckOrder(void) {
 		}
 		else {
 			pOrder = pOrderList->GetOrder((pOrderList->Count) - 1);
-			cout << "<장바구니>" << endl;
 			cout << "-------------------------------------------------------------------" << endl << endl;
 			cout << "[주문번호 " << (pOrderList->Count) - 1 << "번] " << endl << endl;
 			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -289,6 +293,7 @@ void KioskHandler::CheckOrder(void) {
 				sum += pOrderItem->Calculate();
 			}
 			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+			cout << " - 총 결제 금액: " << sum << "원." << endl;
 			cout << " - 총 결제 금액: " << sum << "원." << endl << endl;
 			sum = 0;
 		}
@@ -306,6 +311,8 @@ void KioskHandler::CheckOrder(void) {
 		}
 		for (unsigned int i = 0; i < index; i++) {
 			pOrder = pOrderList->GetOrder(i);
+			pPay = pPayList->GetPay(i);
+			pPayItem = pPay->GetPayItem(0);
 
 			cout << "<장바구니>" << endl;
 			cout << "-------------------------------------------------------------------" << endl << endl;
@@ -319,7 +326,8 @@ void KioskHandler::CheckOrder(void) {
 				sum += pOrderItem->Calculate();
 			}
 			cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-			cout << " - 총 결제 금액: " << sum << "원." << endl << endl;
+			cout << " - 총 결제 금액: " << sum << "원" << endl;
+			cout << " - 결제수단: " << pPayItem->Name << endl << endl;
 			sum = 0;
 		}
 	}
@@ -427,6 +435,7 @@ void KioskHandler::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
+						isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -610,7 +619,8 @@ void KioskHandler::PrintReceipt(void)
 
 		cout << "<영수증>" << endl;
 		cout << "==============================================" << endl;
-		cout << "성훈이네 라면가게" << endl;
+		cout << "♡성훈님과 제자들의 라면가게♡" << endl;
+		cout << "♡정성을 다 하겠습니다♡" << endl;
 		cout << "----------------------------------------------" << endl;
 		cout << "날짜 : " << 1900 + timeinfo->tm_year << "-" << 1 + timeinfo->tm_mon << "-" << timeinfo->tm_mday << " " << timeinfo->tm_hour << ":" << timeinfo->tm_min << endl;
 		cout << "----------------------------------------------" << endl;
