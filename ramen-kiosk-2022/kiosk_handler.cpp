@@ -491,7 +491,7 @@ void OrderCategory::EditOrder(void)
 								}
 								delete pEditOrderItemCooked3;
 							}
-							pEditOrderItemCooked2 = new Object(orderItemCooked2, 0, 0)orderItemCooked;
+							pEditOrderItemCooked2 = new Object(orderItemCooked2, 0, 0);
 							if (pEditingCooked2->DeleteObject(*pEditOrderItemCooked2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
 								//is_paid = 1;
