@@ -3,7 +3,7 @@
 #include "kioskHandler.h"
 #include <ctime>
 
-OrderCategory::OrderCategory(const MenuItem& item, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), item(item), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
+OrderCategory::OrderCategory(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), orderItem(orderItem), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
 {
 	// 멤버 변수 초기화
 	mode = 0; // default: 구매자 모드
@@ -34,16 +34,16 @@ bool OrderCategory::Run(void) {
 		// bPrint = true;
 		// break;
 	case 1:
-		AddOrder();
+		NewOrder();
 		break;
 	case 2:
-		PrintOrder();
+		CheckOrder();
 		break;
 	case 3:
 		EditOrder();
 		break;
 	case 4:
-		AddPay();
+		NewPay();
 		break;
 	case 5:
 		PrintReceipt();
@@ -79,7 +79,7 @@ bool OrderCategory::Settings(void) {
 	cin >> menu;
 	switch (menu) {
 	case 1:
-		PrintOrder();
+		CheckOrder();
 		break;
 	case 2:
 		cout << endl
@@ -95,7 +95,7 @@ bool OrderCategory::Settings(void) {
 	return true;
 }
 
-void OrderCategory::AddOrder(void) {
+void OrderCategory::NewOrder(void) {
 	using namespace std;
 
 	string orderItemName;
@@ -174,7 +174,7 @@ void OrderCategory::AddOrder(void) {
 				break;
 			}
 
-			pOrderItem = item.GetOrderItem(orderItemName);
+			pOrderItem = orderItem.GetOrderItem(orderItemName);
 			if (pOrderItem == 0) {
 				cout << "해당 메뉴는 없습니다." << endl;
 				continue;
@@ -192,7 +192,7 @@ void OrderCategory::AddOrder(void) {
 					break;
 				}
 
-				pOrderItem = item.GetOrderItem(orderItemSpicy);
+				pOrderItem = orderItem.GetOrderItem(orderItemSpicy);
 				if (pOrderItem == 0) {
 					cout << "해당 맵기정도는 없습니다." << endl;
 					goto ONE;
@@ -207,7 +207,7 @@ void OrderCategory::AddOrder(void) {
 					break;
 				}
 
-				pOrderItem = item.GetOrderItem(orderItemCooked);
+				pOrderItem = orderItem.GetOrderItem(orderItemCooked);
 				if (pOrderItem == 0) {
 					cout << "해당 익힘정도는 없습니다." << endl;
 					goto TWO;
@@ -266,7 +266,7 @@ void OrderCategory::AddOrder(void) {
 	}
 }
 
-void OrderCategory::PrintOrder(void) {
+void OrderCategory::CheckOrder(void) {
 	using namespace std;
 
 	Order* pOrder = 0;
@@ -384,7 +384,7 @@ void OrderCategory::EditOrder(void)
 		}
 
 		if (behavior == "추가") {
-			pEditOrderItem = item.GetOrderItem(orderItemName);
+			pEditOrderItem = orderItem.GetOrderItem(orderItemName);
 			if (pEditOrderItem == 0) {
 				cout << "메뉴를 찾을 수 없습니다." << endl << endl;
 				continue;
@@ -531,7 +531,7 @@ void OrderCategory::EditOrder(void)
 	}
 }
 
-void OrderCategory::AddPay(void) {
+void OrderCategory::NewPay(void) {
 	using namespace std;
 
 	unsigned int calculate = 0;

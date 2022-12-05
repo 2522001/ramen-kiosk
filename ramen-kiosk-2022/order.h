@@ -25,4 +25,4 @@ public:
 	const unsigned int& Count = count;
 };
 
-typedef Order MenuItem;
+typedef Order OrderPreset;
