@@ -401,7 +401,6 @@ void KioskHandler::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						//isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -414,7 +413,6 @@ void KioskHandler::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						//isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -427,7 +425,6 @@ void KioskHandler::EditOrder(void)
 					pEditOrderItem = new OrderItem(orderItemName, pEditOrderItem->Price, orderItemCount);
 					if (pEditing->DeleteOrderItem(*pEditOrderItem)) {
 						pOrderList->DeleteOrder((pOrderList->Count) - 1);
-						isPaid = 1;
 					}
 					delete pEditOrderItem;
 
@@ -448,14 +445,12 @@ void KioskHandler::EditOrder(void)
 								pEditOrderItemSpicy3 = new OrderItem(orderItemSpicy3, 0, 0);
 								if (pEditingSpicy3->DeleteOrderItem(*pEditOrderItemSpicy3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
-									//isPaid = 1;
 								}
 								delete pEditOrderItemSpicy3;
 							}
 							pEditOrderItemSpicy2 = new OrderItem(orderItemSpicy2, 0, 0);
 							if (pEditingSpicy2->DeleteOrderItem(*pEditOrderItemSpicy2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//isPaid = 1;
 							}
 							delete pEditOrderItemSpicy2;
 						}
@@ -482,14 +477,12 @@ void KioskHandler::EditOrder(void)
 								pEditOrderItemCooked3 = new OrderItem(orderItemCooked3, 0, 0);
 								if (pEditingCooked3->DeleteOrderItem(*pEditOrderItemCooked3)) {
 									pOrderList->DeleteOrder((pOrderList->Count) - 1);
-									//isPaid = 1;
 								}
 								delete pEditOrderItemCooked3;
 							}
 							pEditOrderItemCooked2 = new OrderItem(orderItemCooked2, 0, 0);
 							if (pEditingCooked2->DeleteOrderItem(*pEditOrderItemCooked2)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//isPaid = 1;
 							}
 							delete pEditOrderItemCooked2;
 						}
@@ -497,7 +490,6 @@ void KioskHandler::EditOrder(void)
 							pEditOrderItemCooked1 = new OrderItem(orderItemCooked1, 0, 0);
 							if (pEditingCooked1->DeleteOrderItem(*pEditOrderItemCooked1)) {
 								pOrderList->DeleteOrder((pOrderList->Count) - 1);
-								//isPaid = 1;
 							}
 						}
 						delete pEditOrderItemCooked1;
