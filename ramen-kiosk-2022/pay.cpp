@@ -1,4 +1,4 @@
-#include "pay.h"
+#include "Pay.h"
 
 using namespace std;
 

@@ -1,7 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include "kioskHandler.h"
 #include <ctime>
+
+#include "KioskHandler.h"
 
 KioskHandler::KioskHandler(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), orderItem(orderItem), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
 {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "orderList.h"
-#include "payList.h"
-#include "revenueManager.h"
+#include "OrderList.h"
+#include "PayList.h"
+#include "RevenueManager.h"
 
 class KioskHandler
 {

@@ -15,63 +15,63 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="order.h">
+    <ClInclude Include="Order.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="orderItem.h">
+    <ClInclude Include="OrderItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="kiosk.h">
+    <ClInclude Include="Kiosk.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="kioskHandler.h">
+    <ClInclude Include="KioskHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="orderList.h">
+    <ClInclude Include="OrderList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="pay.h">
+    <ClInclude Include="Pay.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="payItem.h">
+    <ClInclude Include="PayItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="payList.h">
+    <ClInclude Include="PayList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="revenueManager.h">
+    <ClInclude Include="RevenueManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="order.cpp">
+    <ClCompile Include="Order.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="orderItem.cpp">
+    <ClCompile Include="OrderItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="kiosk.cpp">
+    <ClCompile Include="Kiosk.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="kioskHandler.cpp">
+    <ClCompile Include="KioskHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="orderList.cpp">
+    <ClCompile Include="OrderList.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="pay.cpp">
+    <ClCompile Include="Pay.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="payItem.cpp">
+    <ClCompile Include="PayItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="payList.cpp">
+    <ClCompile Include="PayList.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="revenueManager.cpp">
+    <ClCompile Include="RevenueManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "pay.h"
+#include "Pay.h"
 
 class PayList
 {

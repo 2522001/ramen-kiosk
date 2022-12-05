@@ -1,4 +1,4 @@
-#include "orderItem.h"
+#include "OrderItem.h"
 
 OrderItem::OrderItem(const std::string& name, unsigned int price, unsigned int count) : name(name), price(price), count(count)
 {

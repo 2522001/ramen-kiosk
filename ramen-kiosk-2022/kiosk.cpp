@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "kiosk.h"
+#include "Kiosk.h"
 
 Kiosk::Kiosk(void) : handle(orderItem, &orderList, payItem, &payList, &revManager)
 {

@@ -1,4 +1,4 @@
-#include "kiosk.h"
+#include "Kiosk.h"
 
 int main(void) {
 	Kiosk start;
