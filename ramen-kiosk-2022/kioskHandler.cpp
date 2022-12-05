@@ -3,7 +3,7 @@
 #include "kioskHandler.h"
 #include <ctime>
 
-OrderCategory::OrderCategory(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), orderItem(orderItem), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
+KioskHandler::KioskHandler(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager) : bPrint(true), orderItem(orderItem), pOrderList(pOrderList), payItem(payItem), pPayList(pPayList), pRevManager(pRevManager)
 {
 	// 멤버 변수 초기화
 	mode = 0; // default: 구매자 모드
@@ -11,14 +11,13 @@ OrderCategory::OrderCategory(const OrderPreset& orderItem, OrderList* pOrderList
 	isPrinted = 1; // default: 출력 완료
 }
 
-bool OrderCategory::Run(void) {
+bool KioskHandler::Run(void) {
 	using namespace std;
 
-	int menu = 0; // 입력 번호 (변수명 맞춰야할듯)
+	int menu = 0; // 입력 번호
 	mode = 0;
 
 	cout << "---------------------------" << endl;
-	cout << "<성훈이네 라면가게>" << endl;
 	cout << "1. 새로운 주문" << endl;
 	cout << "2. 주문 확인" << endl;
 	cout << "3. 주문 수정" << endl;
@@ -30,9 +29,6 @@ bool OrderCategory::Run(void) {
 	cout << "> 선택지 번호를 입력하세요: ";
 	cin >> menu;
 	switch (menu) {
-	// case 0:
-		// bPrint = true;
-		// break;
 	case 1:
 		NewOrder();
 		break;
@@ -60,14 +56,13 @@ bool OrderCategory::Run(void) {
 	return true;
 }
 
-bool OrderCategory::Settings(void) {
+bool KioskHandler::Settings(void) {
 	using namespace std;
 
-	int menu = 0; // 입력 번호 (변수명 맞춰야할듯)
+	int menu = 0;
 	mode = 1; // 관리자 모드
 
 	cout << "---------------------------" << endl;
-	cout << "<관리자 모드>" << endl;
 	cout << "하단 번호를 제외한 값 입력 시 관리자 모드를 종료합니다." << endl;
 	cout << "1. 전체 주문 내역 확인" << endl;
 	cout << "2. 정산" << endl;
@@ -95,7 +90,7 @@ bool OrderCategory::Settings(void) {
 	return true;
 }
 
-void OrderCategory::NewOrder(void) {
+void KioskHandler::NewOrder(void) {
 	using namespace std;
 
 	string orderItemName;
@@ -266,7 +261,7 @@ void OrderCategory::NewOrder(void) {
 	}
 }
 
-void OrderCategory::CheckOrder(void) {
+void KioskHandler::CheckOrder(void) {
 	using namespace std;
 
 	Order* pOrder = 0;
@@ -332,7 +327,7 @@ void OrderCategory::CheckOrder(void) {
 	return;
 }
 
-void OrderCategory::EditOrder(void)
+void KioskHandler::EditOrder(void)
 {
 	using namespace std;
 
@@ -531,7 +526,7 @@ void OrderCategory::EditOrder(void)
 	}
 }
 
-void OrderCategory::NewPay(void) {
+void KioskHandler::NewPay(void) {
 	using namespace std;
 
 	unsigned int calculate = 0;
@@ -596,7 +591,7 @@ void OrderCategory::NewPay(void) {
 	}
 }
 
-void OrderCategory::PrintReceipt(void)
+void KioskHandler::PrintReceipt(void)
 {
 	using namespace std;
 

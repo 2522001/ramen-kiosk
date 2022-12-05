@@ -41,7 +41,7 @@ Kiosk::Kiosk(void) : handle(orderItem, &orderList, payItem, &payList, &revManage
 int Kiosk::Run(void)
 {
 	using namespace std;
-	cout << "( ＾◡＾)っ ♡♡♡♡♡성훈이네 라면가게♡♡♡♡♡ (＾◡＾ )っ" << endl << endl;
+	cout << "♡성훈님과 제자들의 라면가게♡" << endl << endl;
 
 	while (handle.Run());
 

@@ -4,7 +4,7 @@
 #include "payList.h"
 #include "revenueManager.h"
 
-class OrderCategory
+class KioskHandler
 {
 	private:
 		bool bPrint;
@@ -26,7 +26,7 @@ class OrderCategory
 		void PrintReceipt(void);
 
 	public:
-		OrderCategory(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager);
+		KioskHandler(const OrderPreset& orderItem, OrderList* pOrderList, const PayPreset& payItem, PayList* pPayList, RevenueManager* pRevManager);
 
 		bool Run(void);
 };

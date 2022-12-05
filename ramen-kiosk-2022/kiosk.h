@@ -8,7 +8,7 @@
 class Kiosk
 {
 private:
-	OrderCategory handle; // kiosk_handler
+	KioskHandler handle; // kiosk_handler
 	OrderPreset orderItem; // preset
 	OrderList orderList;
 	PayPreset payItem;
