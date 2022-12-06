@@ -2,14 +2,14 @@
 
 #include "KioskHandler.h"
 #include "OrderList.h"
-#include "Pay.h"
+#include "PayList.h"
 #include "RevenueManager.h"
 
 class Kiosk
 {
 private:
-	KioskHandler handle; // kiosk_handler
-	OrderPreset orderItem; // preset
+	KioskHandler handle;
+	OrderPreset orderItem;
 	OrderList orderList;
 	PayPreset payItem;
 	PayList payList;
